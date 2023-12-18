@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1122.mapper.TeacherMapper">
+    <select id="findPage" resultMap="teacherResultMap">
+        select teacher.teacherID, teacher.identity, teacher.name from teacher
+        <where>
+            <if test="name != null and name != ''"> and teacher.name like concat('%', #{name} ,'%') </if>
+            <if test="teacherID != null and teacherID != ''"> and teacher.teacherID like concat('%', #{teacherID} ,'%') </if>
+        </where>
+    </select>
+</mapper>

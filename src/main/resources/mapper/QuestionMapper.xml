@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1122.mapper.QuestionMapper">
+
+    <resultMap id="questionResultMap" type="com.example.demo1122.entity.Question">
+        <result column="questionID" property="questionID" />
+        <result column="conversationID" property="conversationID" />
+        <result column="questionTime" property="questionTime" />
+        <result column="questionContent" property="questionContent" />
+        <result column="questionEvaluation" property="questionEvaluation" />
+        <result column="answerContent" property="answerContent" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="questionID">
+        insert into question
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            conversationID,
+            questionTime,
+            questionContent,
+            <if test="questionEvaluation != null and questionEvaluation !=''">
+                questionEvaluation,
+            </if>
+            <if test="answerContent != null and answerContent !=''">
+                answerContent,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{conversationID},
+            #{questionTime},
+            #{questionContent},
+            <if test="questionEvaluation != null and questionEvaluation !=''">
+                #{questionEvaluation},
+            </if>
+            <if test="answerContent != null and answerContent !=''">
+                #{answerContent},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update">
+        update question set
+        <trim suffixOverrides=",">
+            <if test="questionTime != null and questionTime != ''">
+                questionTime = #{questionTime},
+            </if>
+            <if test="questionContent != null and questionContent != ''">
+                questionContent = #{questionContent},
+            </if>
+            <if test="questionEvaluation != null and questionEvaluation != ''">
+                questionEvaluation = #{questionEvaluation},
+            </if>
+            <if test="answerContent != null and answerContent != ''">
+                answerContent = #{answerContent},
+            </if>
+        </trim>
+        <where>
+            questionID = #{questionID}
+        </where>
+    </update>
+
+    <select id="selectAllByConversationID" resultMap="questionResultMap">
+        select questionID, questionTime, questionContent, answerContent
+        from question
+        <where>
+            conversationID = #{conversationID}
+        </where>
+        order by questionTime
+    </select>
+
+    <select id="getQuestionNum" resultType="java.lang.Integer">
+        select count(1) from question
+        <where>
+            conversationID = #{conversationID}
+        </where>
+    </select>
+</mapper>

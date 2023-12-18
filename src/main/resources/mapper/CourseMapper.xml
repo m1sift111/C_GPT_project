@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1122.mapper.CourseMapper">
+    <select id="findPage" resultMap="courseResultMap">
+        select course.courseID, course.courseName from course
+        <where>
+            <if test="courseName != null and courseName != ''"> and course.courseName like concat('%', #{courseName} ,'%') </if>
+            <if test="courseID != null and courseID != ''"> and course.courseID like concat('%', #{courseID} ,'%') </if>
+        </where>
+    </select>
+</mapper>

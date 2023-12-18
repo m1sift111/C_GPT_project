@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1122.mapper.AdmineMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.demo1122.entity.Admine">
+        <id column="admineID" property="admineID" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="identity" property="identity" jdbcType="BIT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        admineID, password, identity, name
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM admine
+        WHERE admineID = #{admineID}
+    </select>
+
+    <insert id="insert" parameterType="map">
+        INSERT INTO admine
+        (<include refid="Base_Column_List"/>)
+        VALUES
+        (#{admineID}, #{password}, #{identity}, #{name})
+    </insert>
+
+    <update id="changePassword" parameterType="map">
+        UPDATE admine
+        SET password = #{newPassword}
+        WHERE admineID = #{admineID}
+    </update>
+
+    <update id="updateById" parameterType="map">
+        UPDATE admine
+        SET
+            password = #{newPassword}
+        WHERE admineID = #{admineID}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM admine
+        WHERE admineID = #{admineID}
+    </delete>
+
+</mapper>

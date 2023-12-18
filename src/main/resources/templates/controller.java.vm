@@ -1,0 +1,42 @@
+package templates;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+import java.util.List;
+
+import com.example.demo1122.service.${tableInfo.serviceName};
+import com.example.demo1122.entity.${tableInfo.entityName};
+
+@RestController
+@RequestMapping("/${packageName}/${moduleName}/${tableInfo.controllerPath}")
+public class ${tableInfo.controllerName} {
+
+@Resource
+private ${tableInfo.serviceName} ${tableInfo.serviceVar};
+
+@PostMapping
+public boolean save(@RequestBody ${tableInfo.entityName} ${tableInfo.entityVar}) {
+        return ${tableInfo.serviceVar}.saveOrUpdate(${tableInfo.entityVar});
+        }
+
+@DeleteMapping("/{id}")
+public boolean delete(@PathVariable Long id) {
+        return ${tableInfo.serviceVar}.removeById(id);
+        }
+
+@GetMapping
+public List<${tableInfo.entityName}> findAll() {
+        return ${tableInfo.serviceVar}.list();
+        }
+
+@GetMapping("/{id}")
+public ${tableInfo.entityName} findById(@PathVariable Long id) {
+        return ${tableInfo.serviceVar}.getById(id);
+        }
+
+@GetMapping("/page")
+public Page<${tableInfo.entityName}> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        return ${tableInfo.serviceVar}.page(new Page<>(pageNum, pageSize));
+        }
+        }

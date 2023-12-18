@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo1122.mapper.ConversationMapper">
+
+    <resultMap id="conversationResultMap" type="com.example.demo1122.entity.Conversation">
+        <result column="conversationID" property="conversationID" />
+        <result column="startTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="conversationEvaluation" property="conversationEvaluation" />
+        <result column="classID" property="classID" />
+        <result column="studentID" property="studentID" />
+        <result column="chapterID" property="chapterID" />
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="conversationID">
+        insert into conversation(conversationID, startTime, endTime, conversationEvaluation, classID, studentID, chapterID)
+        values(#{conversationID}, #{startTime}, #{endTime}, #{conversationEvaluation}, #{classID}, #{studentID}, #{chapterID})
+    </insert>
+
+    <update id="update">
+        update conversation set
+        <trim suffixOverrides=",">
+            <if test="startTime != null and startTime !=''">
+                startTime = #{startTime},
+            </if>
+            <if test="endTime != null and endTime !=''">
+                endTime = #{endTime},
+            </if>
+            <if test="conversationEvaluation != null and conversationEvaluation != ''">
+                conversationEvaluation = #{conversationEvaluation},
+            </if>
+            <if test="classID != null and classID != ''">
+                classID = #{classID},
+            </if>
+            <if test="studentID != null and studentID != ''">
+                studentID = #{studentID},
+            </if>
+            <if test="chapterID != null and chapterID != ''">
+                chapterID = #{chapterID},
+            </if>
+        </trim>
+        where conversationID = #{conversationID}
+    </update>
+
+    <select id="getConversationNum" resultType="java.lang.Integer">
+        select count(*) from conversation
+        where studentID = #{studentID}
+    </select>
+</mapper>
